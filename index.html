@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OMDB MOVIE APP II</title>
+    <style>
+        .card{
+            height: 500px;
+            width: 400px;
+            display: grid;
+            grid-template-rows: 70% 30%;
+            margin: auto;
+            margin-top: 30px;
+            box-shadow: rgba(184, 102, 166, 0.2) 0px 7px 29px 0px;
+            border-radius: 18px;
+        }
+        .top{
+            height: 100%;
+            width: 100%;
+            }
+        .bottom{
+            height: 100%;
+            width: 100%;
+            border-radius: 14px;
+           padding-left: 12px;
+      }
+        img{
+            height: 100%;
+            border-top-left-radius: 14px;
+            border-top-right-radius: 14px;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <div id="main">
+        <input type="text " id="input" placeholder="Movie Name">
+        <input onclick="startfunction()" type="submit">
+    </div>
+    <div id="container">
+         </div>
+</body>
+</html>
+<script>
+ function startfunction(){
+getdata()
+}
+async  function getdata(){
+    let search=document.getElementById("input").value
+let url=`http://www.omdbapi.com/?t=${search}&apikey=42e3f76d`
+    try{
+        let res=await fetch(url)
+        let movie=res.json()
+        .then(function(movie){
+            return movie
+
+        }).then(function(movie){
+            display(movie)
+
+            console.log(movie)
+        })
+
+    }  catch(err){
+        console.log(err)
+    }
+}
+function display(m){
+let container=document.getElementById("container")
+    container.innerHTML=""
+    let card=document.createElement("div")
+    card.setAttribute("class","card")
+    let top=document.createElement("div")
+    top.setAttribute("class","top")
+    let buttom=document.createElement("div")
+    buttom.setAttribute("class","buttom")
+    image=document.createElement("img")
+    image.src=m.Poster
+    let title=document.createElement("h3")
+    title.innerText= "Name:-"+ m.Title
+    const year=document.createElement("p")
+    year.innerText="Year:-"+m.Year;
+    let imdbRating=document.createElement("p")
+   imdbRating.innerText="ImdbRating:-" +m.ImdbRating
+    let Director=document.createElement("p")
+    Director.innerText="Director:-" +m.Director
+    let BoxOffice=document.createElement("p")
+    BoxOffice.innerText= "BoxOffice:-"+ m.BoxOffice
+top.append(image)
+buttom.append(title,year,imdbRating,Director,BoxOffice)
+card.append(top,buttom)
+container.append(card)
+}
+</script>
